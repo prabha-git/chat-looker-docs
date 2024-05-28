@@ -151,7 +151,14 @@ export function ChatWindow(props: { conversationId: string }) {
         if (Array.isArray(streamedResponse?.streamed_output)) {
           accumulatedMessage = streamedResponse.streamed_output.join("");
         }
-        const parsedResult = marked.parse(accumulatedMessage);
+
+        let completeMessage = ""
+        completeMessage += accumulatedMessage;
+        // Remove consecutive duplicate words from parsedResult
+        const uniqueWords = completeMessage
+            .split(/\s+/)
+            .filter((word, index, words) => word !== words[index - 1]);
+        const parsedResult = marked.parse(uniqueWords.join(' '));
 
         setMessages((prevMessages) => {
           let newMessages = [...prevMessages];
