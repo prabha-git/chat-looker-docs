@@ -29,7 +29,7 @@ import { apiBaseUrl } from "../utils/constants";
 
 const MODEL_TYPES = [
   "openai_gpt_3_5_turbo",
-  "anthropic_claude_3_sonnet",
+  "anthropic_claude_3_haiku",
   "google_gemini_pro",
   "fireworks_mixtral",
   "cohere_command",
@@ -132,7 +132,7 @@ export function ChatWindow(props: { conversationId: string }) {
         },
       );
       for await (const chunk of streamLog) {
-        streamedResponse = applyPatch(streamedResponse, chunk.ops).newDocument;
+        streamedResponse = applyPatch(streamedResponse, chunk.ops, undefined, false).newDocument;
         if (
           Array.isArray(
             streamedResponse?.logs?.[sourceStepName]?.final_output?.output,
@@ -151,14 +151,7 @@ export function ChatWindow(props: { conversationId: string }) {
         if (Array.isArray(streamedResponse?.streamed_output)) {
           accumulatedMessage = streamedResponse.streamed_output.join("");
         }
-
-        let completeMessage = ""
-        completeMessage += accumulatedMessage;
-        // Remove consecutive duplicate words from parsedResult
-        const uniqueWords = completeMessage
-            .split(/\s+/)
-            .filter((word, index, words) => word !== words[index - 1]);
-        const parsedResult = marked.parse(uniqueWords.join(' '));
+        const parsedResult = marked.parse(accumulatedMessage);
 
         setMessages((prevMessages) => {
           let newMessages = [...prevMessages];
@@ -227,7 +220,7 @@ export function ChatWindow(props: { conversationId: string }) {
           mb={1}
           color={"white"}
         >
-          Chat Looker
+          Chat LangChain 🦜🔗
         </Heading>
         {messages.length > 0 ? (
           <Heading fontSize="md" fontWeight={"normal"} mb={1} color={"white"}>
@@ -241,9 +234,9 @@ export function ChatWindow(props: { conversationId: string }) {
             marginTop={"10px"}
             textAlign={"center"}
           >
-            Ask me anything about Looker&apos;s{" "}
-            <Link href="https://cloud.google.com/looker/docs/intro" color={"blue.200"}>
-              Looker documentation!
+            Ask me anything about LangChain&apos;s{" "}
+            <Link href="https://python.langchain.com/" color={"blue.200"}>
+              Python documentation!
             </Link>
           </Heading>
         )}
@@ -262,7 +255,7 @@ export function ChatWindow(props: { conversationId: string }) {
                 width={"240px"}
               >
                 <option value="openai_gpt_3_5_turbo">GPT-3.5-Turbo</option>
-                <option value="anthropic_claude_3_sonnet">Claude 3 Sonnet</option>
+                <option value="anthropic_claude_3_haiku">Claude 3 Haiku</option>
                 <option value="google_gemini_pro">Google Gemini Pro</option>
                 <option value="fireworks_mixtral">
                   Mixtral (via Fireworks.ai)
