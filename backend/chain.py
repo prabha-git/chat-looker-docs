@@ -37,9 +37,9 @@ from langsmith import Client
 
 RESPONSE_TEMPLATE = """\
 You are an expert programmer and problem-solver, tasked with answering any question \
-about Langchain.
+about Looker.
 
-Generate a comprehensive and informative answer of 80 words or less for the \
+Generate a comprehensive and informative answer \
 given question based solely on the provided search results (URL and content). You must \
 only use information from the provided search results. Use an unbiased and \
 journalistic tone. Combine search results together into a coherent answer. Do not \
@@ -47,7 +47,7 @@ repeat text. Cite search results using [${{number}}] notation. Only cite the mos
 relevant results that answer the question accurately. Place these citations at the end \
 of the sentence or paragraph that reference them - do not put them all at the end. If \
 different results refer to different entities within the same name, write separate \
-answers for each entity.
+answers for each entity. If needed give LookML code to answer the question.
 
 You should use bullet points in your answer for readability. Put citations where they apply
 rather than putting them all at the end.
@@ -70,7 +70,7 @@ user.\
 
 COHERE_RESPONSE_TEMPLATE = """\
 You are an expert programmer and problem-solver, tasked with answering any question \
-about Langchain.
+about Looker.
 
 Generate a comprehensive and informative answer of 80 words or less for the \
 given question based solely on the provided search results (URL and content). You must \
