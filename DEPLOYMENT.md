@@ -85,7 +85,7 @@ Then, to deploy to Google Cloud Run use the following command:
 First create a `.env.gcp.yaml` file with the contents from [`.env.gcp.yaml.example`](.env.gcp.yaml) and fill in the values. Then run:
 
 ```shell
-gcloud run deploy chat-looker-docs-backend --source . --port 8000 --env-vars-file .env.gcp.yaml --allow-unauthenticated --region us-central1 --min-instances 1
+gcloud run deploy chat-looker-docs-backend --source . --port 8080 --env-vars-file .env.gcp.yaml --allow-unauthenticated --region us-central1 --min-instances 1
 ```
 
 Finally, go back to Vercel and add an environment variable `NEXT_PUBLIC_API_BASE_URL` to match your Cloud Run URL.
