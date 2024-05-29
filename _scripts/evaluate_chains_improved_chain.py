@@ -50,7 +50,7 @@ def create_search_queries_chain(
     model = _PROVIDER_MAP[model_provider](model=model_name, temperature=temperature)
     output_parser = CommaSeparatedListOutputParser()
 
-    _template = """Given the following conversation and a follow up question, generate a list of search queries within LangChain's internal documentation. Keep the total number of search queries to be less than 3, and try to minimize the number of search queries if possible. We want to search as few times as possible, only retrieving the information that is absolutely necessary for answering the user's questions.
+    _template = """Given the following conversation and a follow up question, generate a list of search queries within Looker's internal documentation. Keep the total number of search queries to be less than 3, and try to minimize the number of search queries if possible. We want to search as few times as possible, only retrieving the information that is absolutely necessary for answering the user's questions.
 
 1. If the user's question is a straightforward greeting or unrelated to LangChain, there's no need for any searches. In this case, output an empty list.
 
@@ -61,7 +61,7 @@ def create_search_queries_chain(
 EXAMPLES:
     Chat History:
 
-    Follow Up Input: Hi LangChain!
+    Follow Up Input: Hi Looker!
     Search Queries: 
 
     Chat History:
@@ -117,7 +117,7 @@ def create_chain(
     model = _PROVIDER_MAP[model_provider](model=model_name, temperature=temperature)
 
     _template = """
-    You are an expert programmer and problem-solver, tasked to answer any question about Langchain. Using the provided context, answer the user's question to the best of your ability using the resources provided.
+    You are an expert programmer and problem-solver, tasked to answer any question about Looker. Using the provided context, answer the user's question to the best of your ability using the resources provided.
     If you really don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.
     Anything between the following markdown blocks is retrieved from a knowledge bank, not part of the conversation with the user. 
     <context>
