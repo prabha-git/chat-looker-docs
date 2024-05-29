@@ -257,7 +257,7 @@ export function ChatWindow(props: { conversationId: string }) {
                 {/* <option value="openai_gpt_3_5_turbo">GPT-3.5-Turbo</option> */}
                 <option value="openai_gpt_4o">GPT-4o</option>
                 {/* <option value="anthropic_claude_3_sonnet">Claude 3 Sonnet</option> */}
-                {/* <option value="anthropic_claude_3_opus">Claude 3 Opus</option> */}
+                <option value="anthropic_claude_3_opus">Claude 3 Opus</option>
                 {/* <option value="google_gemini_pro">Google Gemini Pro</option> */}
               </Select>
             )}
