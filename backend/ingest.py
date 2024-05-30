@@ -8,7 +8,6 @@ from constants import WEAVIATE_DOCS_INDEX_NAME
 from langchain.document_loaders import RecursiveUrlLoader
 from langchain.indexes import SQLRecordManager, index
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.utils.html import PREFIXES_TO_IGNORE_REGEX, SUFFIXES_TO_IGNORE_REGEX
 from langchain_community.vectorstores import Weaviate
 from langchain_core.embeddings import Embeddings
 from langchain_openai import OpenAIEmbeddings
@@ -59,7 +58,7 @@ def load_looker_docs():
         timeout=600,
         # Drop trailing / to avoid duplicate pages.
         link_regex=(
-            rf'href=["\'](?![^\?]*?hl=)["\']{PREFIXES_TO_IGNORE_REGEX}((?:{SUFFIXES_TO_IGNORE_REGEX})*?)["\']'
+            r'href=["\\\'](?!javascript:|mailto:|\\#)(?!.*\?hl=)((?:(?!\.css[\\#\'\\"]|\.js[\\#\'\\"]|\.ico[\\#\'\\"]|\.png[\\#\'\\"]|\.jpg[\\#\'\\"]|\.jpeg[\\#\'\\"]|\.gif[\\#\'\\"]|\.svg[\\#\'\\"]|\.csv[\\#\'\\"]|\.bz2[\\#\'\\"]|\.zip[\\#\'\\"]|\.epub[\\#\'\\"]).)*?)[\\\'"]'
         ),
         check_response_status=True,
     ).load()
