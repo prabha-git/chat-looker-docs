@@ -36,6 +36,7 @@ ruff = "^0.2.2"
 [tool.ruff]
 exclude = [
     "test.py",
+    "test2.py",
     "delete_weaviate_objects.py"
 ]
 
