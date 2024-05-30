@@ -50,15 +50,16 @@ def get_embeddings_model() -> Embeddings:
 
 def load_looker_docs():
     return RecursiveUrlLoader(
-        url="https://cloud.google.com/looker/docs/",
-        max_depth=8,
+        #url="https://cloud.google.com/looker/docs/",
+        url="https://cloud.google.com/looker/docs/managing-business-user-features",
+        max_depth=1,
         extractor=simple_extractor,
         prevent_outside=True,
         use_async=True,
         timeout=600,
         # Drop trailing / to avoid duplicate pages.
         link_regex=(
-            r'href=["\\\'](?!javascript:|mailto:|\\#)(?!.*\?hl=)((?:(?!\.css[\\#\'\\"]|\.js[\\#\'\\"]|\.ico[\\#\'\\"]|\.png[\\#\'\\"]|\.jpg[\\#\'\\"]|\.jpeg[\\#\'\\"]|\.gif[\\#\'\\"]|\.svg[\\#\'\\"]|\.csv[\\#\'\\"]|\.bz2[\\#\'\\"]|\.zip[\\#\'\\"]|\.epub[\\#\'\\"]).)*?)[\\\'"]'
+            r'href=["\\\'](?!javascript:|mailto:|\\#)(?!.*\?hl=)(?!.*docs/\d+)((?:(?!\.css[\\#\'\\"]|\.js[\\#\'\\"]|\.ico[\\#\'\\"]|\.png[\\#\'\\"]|\.jpg[\\#\'\\"]|\.jpeg[\\#\'\\"]|\.gif[\\#\'\\"]|\.svg[\\#\'\\"]|\.csv[\\#\'\\"]|\.bz2[\\#\'\\"]|\.zip[\\#\'\\"]|\.epub[\\#\'\\"]).)*?)[\\\'"]'
         ),
         check_response_status=True,
     ).load()
