@@ -50,9 +50,8 @@ def get_embeddings_model() -> Embeddings:
 
 def load_looker_docs():
     return RecursiveUrlLoader(
-        # url="https://cloud.google.com/looker/docs/",
-        url="https://cloud.google.com/looker/docs/managing-business-user-features",
-        max_depth=1,
+        url="https://cloud.google.com/looker/docs/",
+        max_depth=8,
         extractor=simple_extractor,
         prevent_outside=True,
         use_async=True,
