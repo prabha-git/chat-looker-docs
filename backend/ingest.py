@@ -59,8 +59,7 @@ def load_looker_docs():
         timeout=600,
         # Drop trailing / to avoid duplicate pages.
         link_regex=(
-            f"href=[\"']{PREFIXES_TO_IGNORE_REGEX}((?:{SUFFIXES_TO_IGNORE_REGEX}.)*?)"
-            r"(?![^\"]*\?hl=)(?:[\#'\"]|\/[\#'\"])"
+            rf'href=["\'](?![^\?]*?hl=)["\']{PREFIXES_TO_IGNORE_REGEX}((?:{SUFFIXES_TO_IGNORE_REGEX})*?)["\']'
         ),
         check_response_status=True,
     ).load()
