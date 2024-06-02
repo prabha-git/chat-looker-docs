@@ -268,12 +268,12 @@ llm = gpt_4o.configurable_alternatives(
     ConfigurableField(id="llm"),
     default_key="openai_gpt_4o",
     anthropic_claude_3_opus=claude_3_opus,
-    #fireworks_mixtral=fireworks_mixtral,
-    #google_gemini_pro=gemini_pro,
-    #cohere_command=cohere_command,
-)#.with_fallbacks(
+    # fireworks_mixtral=fireworks_mixtral,
+    # google_gemini_pro=gemini_pro,
+    # cohere_command=cohere_command,
+)  # .with_fallbacks(
 #    [gpt_4o, gpt_3_5, claude_3_opus, fireworks_mixtral, gemini_pro, cohere_command]
-#)
+# )
 
 retriever = get_retriever()
 answer_chain = create_chain(llm, retriever)
