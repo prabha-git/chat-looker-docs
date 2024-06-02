@@ -221,7 +221,7 @@ def create_chain(llm: LanguageModelLike, retriever: BaseRetriever) -> Runnable:
     response_synthesizer = (
         default_response_synthesizer.configurable_alternatives(
             ConfigurableField("llm"),
-            default_key="openai_gpt_4o",
+            default_key="gpt_4o",
             anthropic_claude_3_opus=default_response_synthesizer,
             fireworks_mixtral=default_response_synthesizer,
             google_gemini_pro=default_response_synthesizer,
@@ -266,7 +266,7 @@ llm = gpt_4o.configurable_alternatives(
     # This gives this field an id
     # When configuring the end runnable, we can then use this id to configure this field
     ConfigurableField(id="llm"),
-    default_key="openai_gpt_4o",
+    default_key="gpt_4o",
     anthropic_claude_3_opus=claude_3_opus,
     fireworks_mixtral=fireworks_mixtral,
     google_gemini_pro=gemini_pro,
