@@ -21,6 +21,7 @@ from langchain_core.prompts import (
 )
 from langchain_core.pydantic_v1 import BaseModel
 from langchain_core.retrievers import BaseRetriever
+from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
 from langchain_core.runnables import (
     ConfigurableField,
     Runnable,
@@ -32,6 +33,10 @@ from langchain_core.runnables import (
 )
 from langchain_fireworks import ChatFireworks
 from langchain_google_genai import ChatGoogleGenerativeAI
+
+from langchain_cohere import CohereRerank
+from langchain_community.llms import Cohere
+
 from langchain_openai import ChatOpenAI
 from langsmith import Client
 
@@ -121,6 +126,11 @@ WEAVIATE_URL = os.environ["WEAVIATE_URL"]
 WEAVIATE_API_KEY = os.environ["WEAVIATE_API_KEY"]
 
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the FastAPI application!"}
+
+
 class ChatRequest(BaseModel):
     question: str
     chat_history: Optional[List[Dict[str, str]]]
@@ -139,7 +149,7 @@ def get_retriever() -> BaseRetriever:
         by_text=False,
         attributes=["source", "title"],
     )
-    return weaviate_client.as_retriever(search_kwargs=dict(k=6))
+    return weaviate_client.as_retriever(search_kwargs=dict(k=10))
 
 
 def create_retriever_chain(
@@ -262,18 +272,30 @@ cohere_command = ChatCohere(
     temperature=0,
     cohere_api_key=os.environ.get("COHERE_API_KEY", "not_provided"),
 )
-llm = gpt_4o.configurable_alternatives(
-    # This gives this field an id
-    # When configuring the end runnable, we can then use this id to configure this field
-    ConfigurableField(id="llm"),
-    default_key="openai_gpt_4o",
-    anthropic_claude_3_opus=claude_3_opus,
-    # fireworks_mixtral=fireworks_mixtral,
-    # google_gemini_pro=gemini_pro,
-    # cohere_command=cohere_command,
-)  # .with_fallbacks(
-#    [gpt_4o, gpt_3_5, claude_3_opus, fireworks_mixtral, gemini_pro, cohere_command]
-# )
+# llm = gpt_4o.configurable_alternatives(
+#     # This gives this field an id
+#     # When configuring the end runnable, we can then use this id to configure this field
+#     ConfigurableField(id="llm"),
+#     default_key="openai_gpt_4o",
+#     anthropic_claude_3_opus=claude_3_opus,
+#     # fireworks_mixtral=fireworks_mixtral,
+#     # google_gemini_pro=gemini_pro,
+#     # cohere_command=cohere_command,
+# )  # .with_fallbacks(
+# #    [gpt_4o, gpt_3_5, claude_3_opus, fireworks_mixtral, gemini_pro, cohere_command]
+# # )
+
+llm = gpt_4o
+cohere_llm = Cohere(temperature=0)
+
+# Initialize the Cohere reranker
+compressor = CohereRerank(top_n=5)
 
 retriever = get_retriever()
-answer_chain = create_chain(llm, retriever)
+
+# Initialize the ContextualCompressionRetriever with the base compressor and retriever
+compression_retriever = ContextualCompressionRetriever(
+    base_compressor=compressor, base_retriever=retriever
+)
+
+answer_chain = create_chain(llm, compression_retriever)
