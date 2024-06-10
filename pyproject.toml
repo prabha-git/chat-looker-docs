@@ -25,9 +25,10 @@ lxml = "^4.9.3"
 voyageai = "^0.1.4"
 pillow = "^10.2.0"
 tiktoken = "^0.5.2"
-cohere = "4.45"
+cohere = ">=5.5"
 psycopg2-binary = "^2.9.9"
 python-dotenv = "^1.0.1"
+langchain-cohere = "^0.1.5"
 
 
 [tool.poetry.group.lint.dependencies]
