@@ -5,6 +5,16 @@ from bs4 import BeautifulSoup, Doctype, NavigableString, Tag
 
 
 def langchain_docs_extractor(soup: BeautifulSoup) -> str:
+    """
+    Extracts and formats text content from a BeautifulSoup object, converting HTML elements to markdown.
+
+    Args:
+        soup (BeautifulSoup): A BeautifulSoup object containing the parsed HTML content.
+
+    Returns:
+        str: The extracted and formatted text content as a markdown string.
+    """
+
     # Remove all the tags that are not meaningful for the extraction.
     SCAPE_TAGS = ["nav", "footer", "aside", "script", "style"]
     [tag.decompose() for tag in soup.find_all(SCAPE_TAGS)]
